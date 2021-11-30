@@ -14,10 +14,6 @@ class Set {
         return $this->set;
     }
     
-    public function rem($elem) {
-        return unset($this->set[$elem]);
-    }
-    
     public function contains($elem) {
         return in_array($this->set, $elem);
     }
