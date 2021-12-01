@@ -12,9 +12,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 use Twilio\Rest\Client;
 
-$sid = getenv("TWILIO_ACCOUNT_SID");
-$token = getenv("TWILIO_AUTH_TOKEN");
-$twilio = new Client($sid, $token);
+$twilio = new Client(getenv('TWILIO_ACCOUNT_SID'),getenv('TWILIO_AUTH_TOKEN'));
 
 $messages = $twilio->messages->read([], 50);
 
