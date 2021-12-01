@@ -9,7 +9,7 @@
 </div>
 <div class="chats">
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once '../vendor/autoload.php';
 use Twilio\Rest\Client;
 
 $twilio = new Client(getenv('TWILIO_ACCOUNT_SID'),getenv('TWILIO_AUTH_TOKEN'));
