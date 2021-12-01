@@ -9,21 +9,37 @@
 </div>
 <div class="chats">
 <?php
-require_once '/var/www/vhosts/whatsapp.thenshow.me/httpdocs/vendor/autoload.php';
-use Twilio\Rest\Client;
-$twilio = new Client(getenv('TWILIO_ACCOUNT_SID'),getenv('TWILIO_AUTH_TOKEN'));
-$messages = $twilio->messages->read([], 50);
+	require_once '/var/www/vhosts/whatsapp.thenshow.me/httpdocs/vendor/autoload.php';
+	use Twilio\Rest\Client;
+	
+	$twilio = new Client(getenv('TWILIO_ACCOUNT_SID'),getenv('TWILIO_AUTH_TOKEN'));
 
-echo "<div class=\"customer\" >";
-foreach ($messages as $message) {
-    echo "<ul class=\"sms-list\">";
-        
-    $msgs = $twilio->messages->read([ "from" => $from ], 20);
-    foreach($msgs as $message_from) {
-        echo "<li>" . $message_from->body . "</li>";
-    }
-    echo "</ul>";
-}
-echo "</div>";
+    // echo "<div class=\"customer\" ><ul>";
+
+    $msgs = $twilio->messages->read([ 'to' => "whatsapp:+14155238886" ], 20);
+	
+	$client_numbers = array();
+	foreach($msgs as $msg) {
+		in_array($msg->from, $client_numbers) ? $client_numbers : array_push($client_numbers, $msg->from);
+	}
+	
+	foreach($client_numbers as $from) {
+		echo "<p>client number is: " . $from . "</p>";
+		$thread = array_merge(
+			$twilio->messages->read([ 'to' => "whatsapp:+14155238886", 'from' => $from ], 20 ),
+			$twilio->messages->read([ 'to' => $from, 'from' => "whatsapp:+14155238886" ], 20 )
+		);
+		
+		//$sorted_thread = usort($thread, function($a, $b) {return strtotime($a->date_created) < strtotime($b->date_created);});
+		
+		echo "<div class=\"thread\"><div><h3>Conversation with "
+			. $msg->to ." and "
+			. $msg->from."</h3></div><div><ul class=\"messages\">";
+		
+		foreach( $thread as $msg ) {
+			echo "<li class=\"message\">" . $msg->from . " says `" . $msg->body . "`</li>"; 
+		}
+		echo "</ul></div></div>";
+	}
+	echo "</div></body></html>";
 ?>
-</div></body></html>
