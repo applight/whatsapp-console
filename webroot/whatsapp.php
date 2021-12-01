@@ -9,22 +9,21 @@
 </div>
 <div class="chats">
 <?php
-require_once '../vendor/autoload.php';
+require_once '/var/www/vhosts/whatsapp.thenshow.me/httpdocs/vendor/autoload.php';
 use Twilio\Rest\Client;
-
 $twilio = new Client(getenv('TWILIO_ACCOUNT_SID'),getenv('TWILIO_AUTH_TOKEN'));
-
 $messages = $twilio->messages->read([], 50);
 
-foreach ($messages as $msq) {
-    echo "<div class=\"customer\" ><ul>";
-
-    $msg = $twilio->messages->read([ "from" => $from ], 20);
-    foreach($messages_from as $message_from) {
+echo "<div class=\"customer\" >";
+foreach ($messages as $message) {
+    echo "<ul class=\"sms-list\">";
+        
+    $msgs = $twilio->messages->read([ "from" => $from ], 20);
+    foreach($msgs as $message_from) {
         echo "<li>" . $message_from->body . "</li>";
     }
-        
-    echo "</ul></div>";
+    echo "</ul>";
 }
+echo "</div>";
 ?>
 </div></body></html>
