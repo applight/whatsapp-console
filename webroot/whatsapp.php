@@ -1,0 +1,14 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div id="page">
+<div class="topnav">
+<a class="active" href="#home">Home</a>
+<a href="./whatsapp.php">WhatsApp Console</a>
+</div>
+<div class="chats">
+<?php
+          
+?>
+</div></body></html>
