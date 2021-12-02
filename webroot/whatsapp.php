@@ -14,9 +14,7 @@
 	
 	$twilio = new Client(getenv('TWILIO_ACCOUNT_SID'),getenv('TWILIO_AUTH_TOKEN'));
 
-    // echo "<div class=\"customer\" ><ul>";
-
-    $msgs = $twilio->messages->read([ 'to' => "whatsapp:+14155238886" ], 20);
+    $msgs = $twilio->messages->read([ 'to' => "whatsapp:+14155238886" ], 50);
 	
 	$client_numbers = array();
 	foreach($msgs as $msg) {
@@ -30,14 +28,14 @@
 			$twilio->messages->read([ 'to' => $from, 'from' => "whatsapp:+14155238886" ], 20 )
 		);
 		
-		$sorted_thread = usort($thread, function($a, $b) {return strtotime($a->date_sent) > strtotime($b->date_sent);});
+		$sorted_thread = usort($thread, function($a, $b) {return strtotime($a->dateCreated) > strtotime($b->dateCreated);});
 		
 		echo "<div class=\"thread\"><div><p>Conversation with "
 			. $msg->to ." and "
 			. $msg->from."</p></div><div><ul class=\"messages\">";
 		
 		foreach( $thread as $msg ) {
-			echo "<li class=\"message\">". $msg->from . " says `" . $msg->body . "`</li>"; 
+			echo "<li class=\"message\">". $msg->dateCreated . "| "$msg->from . " says `" . $msg->body . "`</li>"; 
 		}
 		echo "</ul></div></div>";
 	}
