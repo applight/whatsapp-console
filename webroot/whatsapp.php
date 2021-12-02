@@ -36,7 +36,7 @@
 		
 		foreach( $thread as $msg ) {
 			echo "<li class=\"message\">"
-                . $msg->date_sent ."| "
+                . $msg->date_sent->format("%H:%M:%S") ."| "
                 . $msg->from ." says `"
                 . $msg->body ."`</li>"; 
 		}
