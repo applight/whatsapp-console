@@ -28,7 +28,7 @@
 			$twilio->messages->read([ 'to' => $from, 'from' => "whatsapp:+14155238886" ], 20 )
 		);
 		
-		usort($thread, function($a, $b) { return $a->dateCreated < $b->dateCreated; });
+		usort($thread, function($a, $b) { return $a->date_sent < $b->date_sent; });
 		
 		echo "<div class=\"thread\"><p>Conversation with "
 			. $msg->to ." and "
@@ -36,7 +36,7 @@
 		
 		foreach( $thread as $msg ) {
 			echo "<li class=\"message\">"
-                . $msg->dateSent ."| "
+                . $msg->date_sent ."| "
                 . $msg->from ." says `"
                 . $msg->body ."`</li>"; 
 		}
