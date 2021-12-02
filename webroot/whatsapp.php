@@ -30,14 +30,17 @@
 		
 		$sorted_thread = usort($thread, function($a, $b) {return strtotime($a->dateCreated) > strtotime($b->dateCreated);});
 		
-		echo "<div class=\"thread\"><div><p>Conversation with "
+		echo "<div class=\"thread\"><p>Conversation with "
 			. $msg->to ." and "
-			. $msg->from."</p></div><div><ul class=\"messages\">";
+			. $msg->from."</p><ul class=\"messages\">";
 		
 		foreach( $thread as $msg ) {
-			echo "<li class=\"message\">". $msg->dateCreated . "| "$msg->from . " says `" . $msg->body . "`</li>"; 
+			echo "<li class=\"message\">"
+                . $msg->dateCreated ."| "
+                . $msg->from ." says `"
+                . $msg->body ."`</li>"; 
 		}
-		echo "</ul></div></div>";
+		echo "</ul></div>";
 	}
 	echo "</div></body></html>";
 ?>
